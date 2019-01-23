@@ -163,7 +163,7 @@ simplified attribute names:
 	 * @throws \TypeError if $newAuthorAvatarUrl is not a string
 	 **/
 	public function setAuthorAvatarUrl(string $newAuthorAvatarUrl) : void {
-		// verify the tweet content is secure
+		// verify the avatar url content is secure
 		$newAuthorAvatarUrl = trim($newAuthorAvatarUrl);
 		$newAuthorAvatarUrl = filter_var($newAuthorAvatarUrl, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newAuthorAvatarUrl) === true) {
@@ -201,7 +201,7 @@ simplified attribute names:
 	 * @throws \TypeError if $newAuthorActivationToken is not a string
 	 **/
 	public function setAuthorAvatarUrl(string $newAuthorActivationToken) : void {
-		// verify the tweet content is secure
+		// verify the activation token is secure
 		$newAuthorActivationToken = trim($newAuthorActivationToken);
 		$newAuthorActivationToken = filter_var($newAuthorActivationToken, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newAuthorActivationToken) === true) {
@@ -278,19 +278,19 @@ simplified attribute names:
 	 **/
 	public function setAuthorHash(string $newAuthorHash) : void {
 		// verify the hash is secure
-		$newAuthorAvatarUrl = trim($newAuthorAvatarUrl);
-		$newAuthorAvatarUrl = filter_var($newAuthorAvatarUrl, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newAuthorAvatarUrl) === true) {
+		$newAuthorHash = trim($newAuthorHash);
+		$newAuthorHash = filter_var($newAuthorHash, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAuthorHash) === true) {
 			throw(new \InvalidArgumentException("author's hash (password) is empty or insecure"));
 		}
 
 		// verify the author's hash (password) url will fit in the database
-		if(strlen($newAuthorAvatarUrl) > 97) {
+		if(strlen($newAuthorHash) > 97) {
 			throw(new \RangeException("author's hash (password) too large"));
 		}
 
 		// store the author's hash (password)
-		$this->authorAvatarUrl = $newAuthorAvatarUrl;
+		$this->authorHash = $newAuthorHash;
 	}
 	/* END HASH METHODS*/
 
@@ -298,37 +298,37 @@ simplified attribute names:
 
 	/* START USERNAME METHODS*/
 	/**
-	 * GETTER accessor method for avatar url
+	 * GETTER accessor method for author's username
 	 *
-	 * @return string value of avatar url
+	 * @return string value of author's username
 	 **/
-	public function getAuthorAvatarUrl() : string{
-		return($this->AuthorAvatarUrl);
+	public function getAuthorUsername() : string{
+		return($this->AuthorUsername);
 	}
 
 	/**
-	 * SETTER mutator method for avatar url
+	 * SETTER mutator method for author's username
 	 *
-	 * @param string $newAuthorAvatarUrl new value of avatar url
-	 * @throws \InvalidArgumentException if $newAuthorAvatarUrl is not a string or insecure
-	 * @throws \RangeException if $newAuthorAvatarUrl is > 140 characters
-	 * @throws \TypeError if $newAuthorAvatarUrl is not a string
+	 * @param string $newAuthorUsername new value of author's username
+	 * @throws \InvalidArgumentException if $newAuthorUsername is not a string or insecure
+	 * @throws \RangeException if $newAuthorUsername is > 140 characters
+	 * @throws \TypeError if $newAuthorUsername is not a string
 	 **/
-	public function setAuthorAvatarUrl(string $newAuthorAvatarUrl) : void {
-		// verify the tweet content is secure
-		$newAuthorAvatarUrl = trim($newAuthorAvatarUrl);
-		$newAuthorAvatarUrl = filter_var($newAuthorAvatarUrl, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newAuthorAvatarUrl) === true) {
-			throw(new \InvalidArgumentException("avatar url is empty or insecure"));
+	public function setAuthorUsername(string $newAuthorUsername) : void {
+		// verify the author's username is secure
+		$newAuthorUsername = trim($newAuthorUsername);
+		$newAuthorUsername = filter_var($newAuthorUsername, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAuthorUsername) === true) {
+			throw(new \InvalidArgumentException("author's username is empty or insecure"));
 		}
 
-		// verify the avatar url will fit in the database
-		if(strlen($newAuthorAvatarUrl) > 255) {
-			throw(new \RangeException("url too large"));
+		// verify the author's username will fit in the database
+		if(strlen($newAuthorUsername) > 255) {
+			throw(new \RangeException("author's username too large"));
 		}
 
-		// store the avatar url
-		$this->authorAvatarUrl = $newAuthorAvatarUrl;
+		// store the author's username
+		$this->authorUsername = $newAuthorUsername;
 	}
 	/* END USER NAME METHODS*/
 
