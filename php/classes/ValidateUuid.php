@@ -1,7 +1,7 @@
 <?php
 namespace jtredway\ObjectOriented;
-require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
-use Ramsey\Uuid\Uuid;
+require_once(dirname(__DIR__, 2) . "/classes/autoload.php");
+//use Ramsey\Uuid\Uuid;
 /**
  * Trait to validate a uuid
  *
@@ -11,19 +11,19 @@ use Ramsey\Uuid\Uuid;
  * 2. binary string (16 bytes)
  * 3. Ramsey\Uuid\Uuid object
  *
- * @author Dylan McDonald <dmcdonald21@cnm.edu>
- * @package Edu\Cnm\Misquote
+ * @author Will Tredway <jtredway@cnm.edu>
+ * @package edu\cnm\bootcamp-coders
  **/
 trait ValidateUuid {
 	/**
 	 * validates a uuid irrespective of format
 	 *
-	 * @param string|Uuid $newUuid uuid to validate
-	 * @return Uuid object with validated uuid
+	 * @param string $newUuid string to validate
+	 * @return string object with validated uuid
 	 * @throws \InvalidArgumentException if $newUuid is not a valid uuid
 	 * @throws \RangeException if $newUuid is not a valid uuid v4
 	 **/
-	private static function validateUuid($newUuid) : Uuid {
+	private static function validateUuid($newUuid) : string {
 		// verify a string uuid
 		if(gettype($newUuid) === "string") {
 			// 16 characters is binary data from mySQL - convert to string and fall to next if block
@@ -33,10 +33,10 @@ trait ValidateUuid {
 			}
 			// 36 characters is a human readable uuid
 			if(strlen($newUuid) === 36) {
-				if(Uuid::isValid($newUuid) === false) {
+				if(string::isValid($newUuid) === false) {
 					throw(new \InvalidArgumentException("invalid uuid"));
 				}
-				$uuid = Uuid::fromString($newUuid);
+				$uuid = string::fromString($newUuid);
 			} else {
 				throw(new \InvalidArgumentException("invalid uuid"));
 			}
