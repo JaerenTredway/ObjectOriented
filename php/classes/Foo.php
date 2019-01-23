@@ -76,6 +76,8 @@ simplified attribute names:
 	 **/
 	private $authorUsername;
 
+
+	/* START CONSTRUCTOR METHOD*/
 	/**
 	 * constructor for each new author object/ instance/ record
 	 *
@@ -106,11 +108,13 @@ simplified attribute names:
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
-	} /* END CONSTRUCT METHOD*/
+	} /* END CONSTRUCTOR METHOD*/
+
+
 
 	/* START AUTHOR ID METHODS*/
 	/**
-	 * accessor method for author id
+	 * GETTER accessor method for author id
 	 *
 	 * @return Uuid value of author id
 	 **/
@@ -119,7 +123,7 @@ simplified attribute names:
 	}
 
 	/**
-	 * mutator method for author id
+	 * SETTER mutator method for author id
 	 *
 	 * @param Uuid|string $newAuthorId new value of author id
 	 * @throws \RangeException if $newAuthorId is not positive
@@ -135,11 +139,14 @@ simplified attribute names:
 
 		// convert and store the author id
 		$this->authorId = $uuid;
-	} /* END AUTHOR ID METHODS*/
+	}
+	/* END AUTHOR ID METHODS*/
+
+
 
 	/* START AVATAR URL METHODS*/
 	/**
-	 * accessor method for avatar url
+	 * GETTER accessor method for avatar url
 	 *
 	 * @return string value of avatar url
 	 **/
@@ -148,7 +155,7 @@ simplified attribute names:
 	}
 
 	/**
-	 * mutator method for avatar url
+	 * SETTER mutator method for avatar url
 	 *
 	 * @param string $newAuthorAvatarUrl new value of avatar url
 	 * @throws \InvalidArgumentException if $newAuthorAvatarUrl is not a string or insecure
@@ -170,13 +177,166 @@ simplified attribute names:
 
 		// store the avatar url
 		$this->authorAvatarUrl = $newAuthorAvatarUrl;
-	} /* END AVATAR URL METHODS*/
+	}
+	/* END AVATAR URL METHODS*/
+
+
+
+	/* START ACTIVATION TOKEN METHODS*/
+	/**
+	 * GETTER accessor method for activation token
+	 *
+	 * @return string value of activation token
+	 **/
+	public function getAuthorActivationToken() : string{
+		return($this->AuthorActivationToken);
+	}
+
+	/**
+	 * SETTER mutator method for activation token
+	 *
+	 * @param string $newAuthorActivationToken new value of activation token
+	 * @throws \InvalidArgumentException if $newAuthorActivationToken is not a string or insecure
+	 * @throws \RangeException if $newAuthorActivationToken is > 32 characters
+	 * @throws \TypeError if $newAuthorActivationToken is not a string
+	 **/
+	public function setAuthorAvatarUrl(string $newAuthorActivationToken) : void {
+		// verify the tweet content is secure
+		$newAuthorActivationToken = trim($newAuthorActivationToken);
+		$newAuthorActivationToken = filter_var($newAuthorActivationToken, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAuthorActivationToken) === true) {
+			throw(new \InvalidArgumentException("activation token is empty or insecure"));
+		}
+
+		// verify the activation token will fit in the database
+		if(strlen($newAuthorActivationToken) > 255) {
+			throw(new \RangeException("activation token too large"));
+		}
+
+		// store the activation token
+		$this->authorActivationToken = $newAuthorActivationToken;
+	}
+	/* END ACTIVATION TOKEN METHODS*/
+
+
+
+	/* START EMAIL METHODS*/
+	/**
+	 * GETTER accessor method for author email
+	 *
+	 * @return string value of author email
+	 **/
+	public function getAuthorEmail() : string{
+		return($this->AuthorEmail);
+	}
+
+	/**
+	 * SETTER mutator method for author email
+	 *
+	 * @param string $newAuthorEmail new value of author email
+	 * @throws \InvalidArgumentException if $newAuthorEmail is not a string or insecure
+	 * @throws \RangeException if $newAuthorEmail is > 140 characters
+	 * @throws \TypeError if $newAuthorEmail is not a string
+	 **/
+	public function setAuthorEmail(string $newAuthorEmail) : void {
+		// verify the email content is secure
+		$newAuthorEmail = trim($newAuthorEmail);
+		$newAuthorEmail = filter_var($newAuthorEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAuthorEmail) === true) {
+			throw(new \InvalidArgumentException("author email is empty or insecure"));
+		}
+
+		// verify the author email will fit in the database
+		if(strlen($newAuthorEmail) > 255) {
+			throw(new \RangeException("author email too large"));
+		}
+
+		// store the author email
+		$this->authorEmail = $newAuthorEmail;
+	}
+	/* END EMAIL METHODS*/
+
+
+
+	/* START HASH METHODS*/
+	/**
+	 * GETTER accessor method for author's hash (password)
+	 *
+	 * @return string value of author's hash (password)
+	 **/
+	public function getAuthorHash() : string{
+		return($this->AuthorHash);
+	}
+
+	/**
+	 * SETTER mutator method for author's hash (password)
+	 *
+	 * @param string $newAuthorHash new value of author's hash (password)
+	 * @throws \InvalidArgumentException if $newAuthorHash is not a string or insecure
+	 * @throws \RangeException if $newAuthorHash is > 97 characters
+	 * @throws \TypeError if $newAuthorHash is not a string
+	 **/
+	public function setAuthorHash(string $newAuthorHash) : void {
+		// verify the hash is secure
+		$newAuthorAvatarUrl = trim($newAuthorAvatarUrl);
+		$newAuthorAvatarUrl = filter_var($newAuthorAvatarUrl, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAuthorAvatarUrl) === true) {
+			throw(new \InvalidArgumentException("author's hash (password) is empty or insecure"));
+		}
+
+		// verify the author's hash (password) url will fit in the database
+		if(strlen($newAuthorAvatarUrl) > 97) {
+			throw(new \RangeException("author's hash (password) too large"));
+		}
+
+		// store the author's hash (password)
+		$this->authorAvatarUrl = $newAuthorAvatarUrl;
+	}
+	/* END HASH METHODS*/
+
+
+
+	/* START USERNAME METHODS*/
+	/**
+	 * GETTER accessor method for avatar url
+	 *
+	 * @return string value of avatar url
+	 **/
+	public function getAuthorAvatarUrl() : string{
+		return($this->AuthorAvatarUrl);
+	}
+
+	/**
+	 * SETTER mutator method for avatar url
+	 *
+	 * @param string $newAuthorAvatarUrl new value of avatar url
+	 * @throws \InvalidArgumentException if $newAuthorAvatarUrl is not a string or insecure
+	 * @throws \RangeException if $newAuthorAvatarUrl is > 140 characters
+	 * @throws \TypeError if $newAuthorAvatarUrl is not a string
+	 **/
+	public function setAuthorAvatarUrl(string $newAuthorAvatarUrl) : void {
+		// verify the tweet content is secure
+		$newAuthorAvatarUrl = trim($newAuthorAvatarUrl);
+		$newAuthorAvatarUrl = filter_var($newAuthorAvatarUrl, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAuthorAvatarUrl) === true) {
+			throw(new \InvalidArgumentException("avatar url is empty or insecure"));
+		}
+
+		// verify the avatar url will fit in the database
+		if(strlen($newAuthorAvatarUrl) > 255) {
+			throw(new \RangeException("url too large"));
+		}
+
+		// store the avatar url
+		$this->authorAvatarUrl = $newAuthorAvatarUrl;
+	}
+	/* END USER NAME METHODS*/
 
 
 
 
 
-	/* START INSERT METHOD*/
+	/* START ROW INSERT METHOD*/
 	/**
 	 * inserts this Tweet into mySQL
 	 *
@@ -197,7 +357,7 @@ simplified attribute names:
 	} /* END INSERT METHOD*/
 
 
-	/* START DELETE METHOD*/
+	/* START ROW DELETE METHOD*/
 	/**
 	 * deletes this Tweet from mySQL
 	 *
@@ -217,7 +377,7 @@ simplified attribute names:
 	} /* END DELETE METHOD*/
 
 
-	/* START UPDATE METHOD*/
+	/* START ROW UPDATE METHOD*/
 	/**
 	 * updates this Tweet in mySQL
 	 *
@@ -236,6 +396,7 @@ simplified attribute names:
 		$parameters = ["tweetId" => $this->tweetId->getBytes(),"tweetProfileId" => $this->tweetProfileId->getBytes(), "tweetContent" => $this->tweetContent, "tweetDate" => $formattedDate];
 		$statement->execute($parameters);
 	} /* END UPDATE METHOD*/
+
 
 
 
@@ -395,6 +556,7 @@ simplified attribute names:
 		return ($tweets);
 	}
 	/* END OTHER GET METHODS: */
+
 
 
 
