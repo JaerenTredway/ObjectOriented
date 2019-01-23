@@ -1,10 +1,10 @@
 <?php
 namespace jtredway\ObjectOriented;
 
-require_once("autoload.php");
-require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
+require_once("../classes/autoload.php");
+require_once(dirname(__DIR__, 2) . "/classes/autoload.php");
 
-use Ramsey\Uuid\Uuid;
+//use Ramsey\Uuid\Uuid;
 
 /*
 simplified attribute names:
@@ -25,6 +25,3 @@ $doyle = new Author(
 	"SirArthur"
 );
 
-echo $doyle;
-
-?>
