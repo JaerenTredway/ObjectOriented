@@ -1,6 +1,6 @@
 <?php
 namespace jtredway\ObjectOriented;
-require_once(dirname(__DIR__, 1) . "/classes/autoload.php");
+require_once(dirname(__DIR__, 2) . "/php/classes/autoload.php");
 use Ramsey\Uuid\Uuid;
 /**
  * Trait to validate a uuid
@@ -23,7 +23,7 @@ trait ValidateUuid {
 	 * @throws \InvalidArgumentException if $newUuid is not a valid uuid
 	 * @throws \RangeException if $newUuid is not a valid uuid v4
 	 **/
-	private static function validateUuid($newUuid) : string {
+	public static function validateUuid($newUuid) : string {
 		// verify a string uuid
 		if(gettype($newUuid) === "string") {
 			// 16 characters is binary data from mySQL - convert to string and fall to next if block
@@ -33,10 +33,10 @@ trait ValidateUuid {
 			}
 			// 36 characters is a human readable uuid
 			if(strlen($newUuid) === 36) {
-				if(ValidateUuid::isValid($newUuid) === false) {
+				if(Uuid::isValid($newUuid) === false) {
 					throw(new \InvalidArgumentException("invalid uuid"));
 				}
-				$uuid = (ValidateUuid::fromString($newUuid));
+				$uuid = (Uuid::fromString($newUuid));
 			} else {
 				throw(new \InvalidArgumentException("invalid uuid"));
 			}
