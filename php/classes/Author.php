@@ -4,7 +4,7 @@ namespace jtredway\ObjectOriented;
 require_once("autoload.php");
 require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
 
-//use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Object-oriented assignment for DeepDive
@@ -81,7 +81,7 @@ simplified attribute names:
 	/**
 	 * constructor for each new author object/ instance/ record
 	 *
-	 * @param string $newAuthorId id of this author
+	 * @param Uuid|string $newAuthorId id of this author
 	 * @param string $newAuthorAvatarUrl url of the avatar image
 	 * @param string $newAuthorActivationToken string containing activation token
 	 * @param string $newAuthorEmail author's email address
@@ -123,7 +123,7 @@ simplified attribute names:
 	/**
 	 * SETTER mutator method for author id
 	 *
-	 * @param string $newAuthorId new value of author id
+	 * @param Uuid|string $newAuthorId new value of author id
 	 * @throws \RangeException if $newAuthorId is not positive
 	 * @throws \TypeError if $newAuthorId is not a uuid or string
 	 **/
