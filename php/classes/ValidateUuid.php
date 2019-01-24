@@ -1,6 +1,6 @@
 <?php
 namespace jtredway\ObjectOriented;
-require_once(dirname(__DIR__, 2) . "/classes/autoload.php");
+require_once(dirname(__DIR__, 1) . "/classes/autoload.php");
 //use Ramsey\Uuid\Uuid;
 /**
  * Trait to validate a uuid
@@ -33,10 +33,10 @@ trait ValidateUuid {
 			}
 			// 36 characters is a human readable uuid
 			if(strlen($newUuid) === 36) {
-				if(string::isValid($newUuid) === false) {
+				if(Uuid::isValid($newUuid) === false) {
 					throw(new \InvalidArgumentException("invalid uuid"));
 				}
-				$uuid = string::fromString($newUuid);
+				$uuid = (Uuid::fromString($newUuid));
 			} else {
 				throw(new \InvalidArgumentException("invalid uuid"));
 			}
