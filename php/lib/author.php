@@ -15,7 +15,13 @@
 		authorHash
 		authorUsername
 	*/
-
+	/**
+	 * New Author Generator
+	 *
+	 * This is a code that creates a new instance of the Author class with all of the attributes the database requires.
+	 *
+	 * @author Will Tredway
+	 */
 	$doyle = new Author(
 		"fb766021-f5ab-4f64-8ef8-d5a333211741",
 		"www.myAvatar.com/1",
