@@ -33,10 +33,10 @@ trait ValidateUuid {
 			}
 			// 36 characters is a human readable uuid
 			if(strlen($newUuid) === 36) {
-				if(Uuid::isValid($newUuid) === false) {
+				if(ValidateUuid::isValid($newUuid) === false) {
 					throw(new \InvalidArgumentException("invalid uuid"));
 				}
-				$uuid = (Uuid::fromString($newUuid));
+				$uuid = (ValidateUuid::fromString($newUuid));
 			} else {
 				throw(new \InvalidArgumentException("invalid uuid"));
 			}
