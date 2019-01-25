@@ -329,67 +329,67 @@ simplified attribute names:
 
 
 	/* START INSERT METHOD */
-	/**
-	 * inserts this Tweet into mySQL
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 **/
-	public function insert(\PDO $pdo) : void {
-
-		// create query template with associative array indexes:
-		$query = "INSERT INTO tweet(tweetId,tweetProfileId, tweetContent, tweetDate) VALUES(:tweetId, :tweetProfileId, :tweetContent, :tweetDate)";
-		$statement = $pdo->prepare($query);
-
-		// bind the member variables to the place holders in the template
-		$formattedDate = $this->tweetDate->format("Y-m-d H:i:s.u");
-		$parameters = ["tweetId" => $this->tweetId->getBytes(), "tweetProfileId" => $this->tweetProfileId->getBytes(), "tweetContent" => $this->tweetContent, "tweetDate" => $formattedDate];
-		$statement->execute($parameters);
-	}
+//	/**
+//	 * inserts this Tweet into mySQL
+//	 *
+//	 * @param \PDO $pdo PDO connection object
+//	 * @throws \PDOException when mySQL related errors occur
+//	 * @throws \TypeError if $pdo is not a PDO connection object
+//	 **/
+//	public function insert(\PDO $pdo) : void {
+//
+//		// create query template with associative array indexes:
+//		$query = "INSERT INTO tweet(tweetId,tweetProfileId, tweetContent, tweetDate) VALUES(:tweetId, :tweetProfileId, :tweetContent, :tweetDate)";
+//		$statement = $pdo->prepare($query);
+//
+//		// bind the member variables to the place holders in the template
+//		$formattedDate = $this->tweetDate->format("Y-m-d H:i:s.u");
+//		$parameters = ["tweetId" => $this->tweetId->getBytes(), "tweetProfileId" => $this->tweetProfileId->getBytes(), "tweetContent" => $this->tweetContent, "tweetDate" => $formattedDate];
+//		$statement->execute($parameters);
+//	}
 	/* END INSERT METHOD */
 
 
 	/* START DELETE METHOD */
-	/**
-	 * deletes this Tweet from mySQL
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 **/
-	public function delete(\PDO $pdo) : void {
-
-		// create query template
-		$query = "DELETE FROM tweet WHERE tweetId = :tweetId";
-		$statement = $pdo->prepare($query);
-
-		// bind the member variables to the place holder in the template
-		$parameters = ["tweetId" => $this->tweetId->getBytes()];
-		$statement->execute($parameters);
-	}
+//	/**
+//	 * deletes this Tweet from mySQL
+//	 *
+//	 * @param \PDO $pdo PDO connection object
+//	 * @throws \PDOException when mySQL related errors occur
+//	 * @throws \TypeError if $pdo is not a PDO connection object
+//	 **/
+//	public function delete(\PDO $pdo) : void {
+//
+//		// create query template
+//		$query = "DELETE FROM tweet WHERE tweetId = :tweetId";
+//		$statement = $pdo->prepare($query);
+//
+//		// bind the member variables to the place holder in the template
+//		$parameters = ["tweetId" => $this->tweetId->getBytes()];
+//		$statement->execute($parameters);
+//	}
 	/* END DELETE METHOD */
 
 
 	/* START UPDATE METHOD */
-	/**
-	 * updates this Tweet in mySQL
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 **/
-	public function update(\PDO $pdo) : void {
-
-		// create query template
-		$query = "UPDATE tweet SET tweetProfileId = :tweetProfileId, tweetContent = :tweetContent, tweetDate = :tweetDate WHERE tweetId = :tweetId";
-		$statement = $pdo->prepare($query);
-
-
-		$formattedDate = $this->tweetDate->format("Y-m-d H:i:s.u");
-		$parameters = ["tweetId" => $this->tweetId->getBytes(),"tweetProfileId" => $this->tweetProfileId->getBytes(), "tweetContent" => $this->tweetContent, "tweetDate" => $formattedDate];
-		$statement->execute($parameters);
-	}
+//	/**
+//	 * updates this Tweet in mySQL
+//	 *
+//	 * @param \PDO $pdo PDO connection object
+//	 * @throws \PDOException when mySQL related errors occur
+//	 * @throws \TypeError if $pdo is not a PDO connection object
+//	 **/
+//	public function update(\PDO $pdo) : void {
+//
+//		// create query template
+//		$query = "UPDATE tweet SET tweetProfileId = :tweetProfileId, tweetContent = :tweetContent, tweetDate = :tweetDate WHERE tweetId = :tweetId";
+//		$statement = $pdo->prepare($query);
+//
+//
+//		$formattedDate = $this->tweetDate->format("Y-m-d H:i:s.u");
+//		$parameters = ["tweetId" => $this->tweetId->getBytes(),"tweetProfileId" => $this->tweetProfileId->getBytes(), "tweetContent" => $this->tweetContent, "tweetDate" => $formattedDate];
+//		$statement->execute($parameters);
+//	}
 	/* END UPDATE METHOD */
 
 
