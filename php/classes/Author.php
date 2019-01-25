@@ -207,7 +207,7 @@ simplified attribute names:
 		}
 
 		// verify the activation token will fit in the database
-		if(strlen($newAuthorActivationToken) > 255) {
+		if(strlen($newAuthorActivationToken) > 32) {
 			throw(new \RangeException("activation token too large"));
 		}
 
@@ -328,46 +328,52 @@ simplified attribute names:
 	/* END USER NAME METHODS*/
 
 
+	//Object Oriented Part 2:
+//Write and Document an insert statement method
+//Write and Document an update statement method
+//Write and Document a delete statement method
+//Write and document a getFooByBar method that returns a single object
+//Write and document a getFooByBar method that returns a full array
+
 	/* START INSERT METHOD */
-//	/**
-//	 * inserts this Tweet into mySQL
-//	 *
-//	 * @param \PDO $pdo PDO connection object
-//	 * @throws \PDOException when mySQL related errors occur
-//	 * @throws \TypeError if $pdo is not a PDO connection object
-//	 **/
-//	public function insert(\PDO $pdo) : void {
-//
-//		// create query template with associative array indexes:
-//		$query = "INSERT INTO tweet(tweetId,tweetProfileId, tweetContent, tweetDate) VALUES(:tweetId, :tweetProfileId, :tweetContent, :tweetDate)";
-//		$statement = $pdo->prepare($query);
-//
-//		// bind the member variables to the place holders in the template
-//		$formattedDate = $this->tweetDate->format("Y-m-d H:i:s.u");
-//		$parameters = ["tweetId" => $this->tweetId->getBytes(), "tweetProfileId" => $this->tweetProfileId->getBytes(), "tweetContent" => $this->tweetContent, "tweetDate" => $formattedDate];
-//		$statement->execute($parameters);
-//	}
+	/**
+	 * inserts an already-made author object (instance of Author class) into the mySQL author table in the database
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function insert(\PDO $pdo) : void {
+
+		// create query template with associative array indexes:
+		$query = "INSERT INTO author(authorId, authorAvatarUrl, authorActivationToken, authorEmail, authorHash, authorUsername) VALUES(:authorId, :authorAvatarUrl, :authorActivationToken, :authorEmail, :authorHash, :authorUsername)";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders in the template
+		$parameters = ["authorId" => $this->authorId->getBytes(), "authorAvatarUrl" => $this->authorAvatarUrl->getBytes(), "authorActivationToken" => $this->authorActivationToken, "authorEmail" => $this->authorEmail, "authorHash" => $this->authorHash, "authorUsername" => $this->authorUsername];
+		$statement->execute($parameters);
+	}
 	/* END INSERT METHOD */
 
 
 	/* START DELETE METHOD */
-//	/**
-//	 * deletes this Tweet from mySQL
-//	 *
-//	 * @param \PDO $pdo PDO connection object
-//	 * @throws \PDOException when mySQL related errors occur
-//	 * @throws \TypeError if $pdo is not a PDO connection object
-//	 **/
-//	public function delete(\PDO $pdo) : void {
-//
-//		// create query template
-//		$query = "DELETE FROM tweet WHERE tweetId = :tweetId";
-//		$statement = $pdo->prepare($query);
-//
-//		// bind the member variables to the place holder in the template
-//		$parameters = ["tweetId" => $this->tweetId->getBytes()];
-//		$statement->execute($parameters);
-//	}
+	/**
+	 * deletes an author from the mySQL database
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function delete(\PDO $pdo) : void {
+
+		// create query template
+		$query = "DELETE FROM author WHERE authorId = :authorId";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holder in the template
+		$parameters = ["authorId" => $this->authorId->getBytes()];
+		$statement->execute($parameters);
+	}
 	/* END DELETE METHOD */
 
 
@@ -393,10 +399,95 @@ simplified attribute names:
 	/* END UPDATE METHOD */
 
 
-	/* START SEARCH STATIC METHOD */
+	/* START SEARCH STATIC METHOD: RETURN OBJECT */
+//	/**
+//	 * gets the Tweet by tweetId
+//	 *
+//	 * @param \PDO $pdo PDO connection object
+//	 * @param Uuid|string $tweetId tweet id to search for
+//	 * @return Tweet|null Tweet found or null if not found
+//	 * @throws \PDOException when mySQL related errors occur
+//	 * @throws \TypeError when a variable are not the correct data type
+//	 **/
+//	public static function getTweetByTweetId(\PDO $pdo, $tweetId) : ?Tweet {
+//		// sanitize the tweetId before searching
+//		try {
+//			$tweetId = self::validateUuid($tweetId);
+//		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+//			throw(new \PDOException($exception->getMessage(), 0, $exception));
+//		}
+//
+//		// create query template
+//		$query = "SELECT tweetId, tweetProfileId, tweetContent, tweetDate FROM tweet WHERE tweetId = :tweetId";
+//		$statement = $pdo->prepare($query);
+//
+//		// bind the tweet id to the place holder in the template
+//		$parameters = ["tweetId" => $tweetId->getBytes()];
+//		$statement->execute($parameters);
+//
+//		// grab the tweet from mySQL
+//		try {
+//			$tweet = null;
+//			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+//			$row = $statement->fetch();
+//			if($row !== false) {
+//				$tweet = new Tweet($row["tweetId"], $row["tweetProfileId"], $row["tweetContent"], $row["tweetDate"]);
+//			}
+//		} catch(\Exception $exception) {
+//			// if the row couldn't be converted, rethrow it
+//			throw(new \PDOException($exception->getMessage(), 0, $exception));
+//		}
+//		return($tweet);
+//	}
+	/* END SEARCH STATIC METHOD: RETURN OBJECT */
 
-	/* END SEARCH STATIC METHOD */
 
+	/* START SEARCH STATIC METHOD: RETURN ARRAY */
+//	/**
+//	 * gets the Tweet by content
+//	 *
+//	 * @param \PDO $pdo PDO connection object
+//	 * @param string $tweetContent tweet content to search for
+//	 * @return \SplFixedArray SplFixedArray of Tweets found
+//	 * @throws \PDOException when mySQL related errors occur
+//	 * @throws \TypeError when variables are not the correct data type
+//	 **/
+//	public static function getTweetByTweetContent(\PDO $pdo, string $tweetContent) : \SplFixedArray {
+//		// sanitize the description before searching
+//		$tweetContent = trim($tweetContent);
+//		$tweetContent = filter_var($tweetContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+//		if(empty($tweetContent) === true) {
+//			throw(new \PDOException("tweet content is invalid"));
+//		}
+//
+//		// escape any mySQL wild cards
+//		$tweetContent = str_replace("_", "\\_", str_replace("%", "\\%", $tweetContent));
+//
+//		// create query template
+//		$query = "SELECT tweetId, tweetProfileId, tweetContent, tweetDate FROM tweet WHERE tweetContent LIKE :tweetContent";
+//		$statement = $pdo->prepare($query);
+//
+//		// bind the tweet content to the place holder in the template
+//		$tweetContent = "%$tweetContent%";
+//		$parameters = ["tweetContent" => $tweetContent];
+//		$statement->execute($parameters);
+//
+//		// build an array of tweets
+//		$tweets = new \SplFixedArray($statement->rowCount());
+//		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+//		while(($row = $statement->fetch()) !== false) {
+//			try {
+//				$tweet = new Tweet($row["tweetId"], $row["tweetProfileId"], $row["tweetContent"], $row["tweetDate"]);
+//				$tweets[$tweets->key()] = $tweet;
+//				$tweets->next();
+//			} catch(\Exception $exception) {
+//				// if the row couldn't be converted, rethrow it
+//				throw(new \PDOException($exception->getMessage(), 0, $exception));
+//			}
+//		}
+//		return($tweets);
+//	}
+	/* END SEARCH STATIC METHOD: RETURN ARRAY */
 
 } /* END OF CLASS AUTHOR */
 
