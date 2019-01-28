@@ -3,8 +3,6 @@
 
 require_once("../classes/Author.php");
 require_once("../classes/autoload.php");
-//	require_once("../classes/autoload.php");
-//	require_once(dirname(__DIR__, 1) . "/classes/Author.php");
 	// use autoload via composer (PHP's package manager:
 	require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
 
