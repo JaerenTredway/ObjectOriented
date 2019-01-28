@@ -337,7 +337,7 @@ simplified attribute names:
 
 	/* START INSERT METHOD */
 	/**
-	 * inserts an already-made author object (instance of Author class) into the mySQL author table in the database
+	 * inserts an already-made author object (instance of Author class) into the mySQL database (into the author table)
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
@@ -350,7 +350,7 @@ simplified attribute names:
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
-		$parameters = ["authorId" => $this->authorId->getBytes(), "authorAvatarUrl" => $this->authorAvatarUrl->getBytes(), "authorActivationToken" => $this->authorActivationToken, "authorEmail" => $this->authorEmail, "authorHash" => $this->authorHash, "authorUsername" => $this->authorUsername];
+		$parameters = ["authorId" => $this->authorId->getBytes(), "authorAvatarUrl" => $this->authorAvatarUrl, "authorActivationToken" => $this->authorActivationToken, "authorEmail" => $this->authorEmail, "authorHash" => $this->authorHash, "authorUsername" => $this->authorUsername];
 		$statement->execute($parameters);
 	}
 	/* END INSERT METHOD */
@@ -378,115 +378,113 @@ simplified attribute names:
 
 
 	/* START UPDATE METHOD */
-//	/**
-//	 * updates this Tweet in mySQL
-//	 *
-//	 * @param \PDO $pdo PDO connection object
-//	 * @throws \PDOException when mySQL related errors occur
-//	 * @throws \TypeError if $pdo is not a PDO connection object
-//	 **/
-//	public function update(\PDO $pdo) : void {
-//
-//		// create query template
-//		$query = "UPDATE tweet SET tweetProfileId = :tweetProfileId, tweetContent = :tweetContent, tweetDate = :tweetDate WHERE tweetId = :tweetId";
-//		$statement = $pdo->prepare($query);
-//
-//
-//		$formattedDate = $this->tweetDate->format("Y-m-d H:i:s.u");
-//		$parameters = ["tweetId" => $this->tweetId->getBytes(),"tweetProfileId" => $this->tweetProfileId->getBytes(), "tweetContent" => $this->tweetContent, "tweetDate" => $formattedDate];
-//		$statement->execute($parameters);
-//	}
+	/**
+	 * updates this author's info in mySQL database
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function update(\PDO $pdo) : void {
+
+		// create query template
+		$query = "UPDATE author SET authorId = :authorId, authorAvatarUrl = :authorAvatarUrl, authorActivationToken = :authorActivationToken WHERE authorEmail = :authorEmail, authorHash = :authorHash, authorUsername = :authorUsername";
+		$statement = $pdo->prepare($query);
+
+		$parameters = ["authorId" => $this->authorId->getBytes(),"authorAvatarUrl" => $this->authorAvatarUrl, "authorActivationToken" => $this->authorActivationToken, "authorEmail" => $this->authorEmail, "authorHash" => $this->authorHash, "authorUsername" => $this->authorUsername];
+		$statement->execute($parameters);
+	}
 	/* END UPDATE METHOD */
 
 
 	/* START SEARCH STATIC METHOD: RETURN OBJECT */
-//	/**
-//	 * gets the Tweet by tweetId
-//	 *
-//	 * @param \PDO $pdo PDO connection object
-//	 * @param Uuid|string $tweetId tweet id to search for
-//	 * @return Tweet|null Tweet found or null if not found
-//	 * @throws \PDOException when mySQL related errors occur
-//	 * @throws \TypeError when a variable are not the correct data type
-//	 **/
-//	public static function getTweetByTweetId(\PDO $pdo, $tweetId) : ?Tweet {
-//		// sanitize the tweetId before searching
-//		try {
-//			$tweetId = self::validateUuid($tweetId);
-//		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-//			throw(new \PDOException($exception->getMessage(), 0, $exception));
-//		}
-//
-//		// create query template
-//		$query = "SELECT tweetId, tweetProfileId, tweetContent, tweetDate FROM tweet WHERE tweetId = :tweetId";
-//		$statement = $pdo->prepare($query);
-//
-//		// bind the tweet id to the place holder in the template
-//		$parameters = ["tweetId" => $tweetId->getBytes()];
-//		$statement->execute($parameters);
-//
-//		// grab the tweet from mySQL
-//		try {
-//			$tweet = null;
-//			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-//			$row = $statement->fetch();
-//			if($row !== false) {
-//				$tweet = new Tweet($row["tweetId"], $row["tweetProfileId"], $row["tweetContent"], $row["tweetDate"]);
-//			}
-//		} catch(\Exception $exception) {
-//			// if the row couldn't be converted, rethrow it
-//			throw(new \PDOException($exception->getMessage(), 0, $exception));
-//		}
-//		return($tweet);
-//	}
+	/**
+	 * gets the author's username by authorId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param Uuid|string $authorId author id to search for
+	 * @return author|null author found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when a variable are not the correct data type
+	 **/
+	public static function getAuthorByAuthorId(\PDO $pdo, $authorId) : ?author {
+		// sanitize the authorId before searching
+		try {
+			$authorId = self::validateUuid($authorId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+
+		// create query template
+		$query = "SELECT authorId, authorUsername FROM author WHERE authorId = :authorId";
+		$statement = $pdo->prepare($query);
+
+		// bind the author id to the place holder in the template
+		$parameters = ["authorId" => authorId];
+		$statement->execute($parameters);
+
+		// get the author from mySQL
+		try {
+			$author = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$author = new Author($row["authorId"], $row["authorUsername"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($author);
+	}
 	/* END SEARCH STATIC METHOD: RETURN OBJECT */
 
 
 	/* START SEARCH STATIC METHOD: RETURN ARRAY */
-//	/**
-//	 * gets the Tweet by content
-//	 *
-//	 * @param \PDO $pdo PDO connection object
-//	 * @param string $tweetContent tweet content to search for
-//	 * @return \SplFixedArray SplFixedArray of Tweets found
-//	 * @throws \PDOException when mySQL related errors occur
-//	 * @throws \TypeError when variables are not the correct data type
-//	 **/
-//	public static function getTweetByTweetContent(\PDO $pdo, string $tweetContent) : \SplFixedArray {
-//		// sanitize the description before searching
-//		$tweetContent = trim($tweetContent);
-//		$tweetContent = filter_var($tweetContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-//		if(empty($tweetContent) === true) {
-//			throw(new \PDOException("tweet content is invalid"));
-//		}
-//
-//		// escape any mySQL wild cards
-//		$tweetContent = str_replace("_", "\\_", str_replace("%", "\\%", $tweetContent));
-//
-//		// create query template
-//		$query = "SELECT tweetId, tweetProfileId, tweetContent, tweetDate FROM tweet WHERE tweetContent LIKE :tweetContent";
-//		$statement = $pdo->prepare($query);
-//
-//		// bind the tweet content to the place holder in the template
-//		$tweetContent = "%$tweetContent%";
-//		$parameters = ["tweetContent" => $tweetContent];
-//		$statement->execute($parameters);
-//
-//		// build an array of tweets
-//		$tweets = new \SplFixedArray($statement->rowCount());
-//		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-//		while(($row = $statement->fetch()) !== false) {
-//			try {
-//				$tweet = new Tweet($row["tweetId"], $row["tweetProfileId"], $row["tweetContent"], $row["tweetDate"]);
-//				$tweets[$tweets->key()] = $tweet;
-//				$tweets->next();
-//			} catch(\Exception $exception) {
-//				// if the row couldn't be converted, rethrow it
-//				throw(new \PDOException($exception->getMessage(), 0, $exception));
-//			}
-//		}
-//		return($tweets);
-//	}
+	/**
+	 * gets the author username by email
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $authorEmail author email to search for
+	 * @return \SplFixedArray SplFixedArray of authors found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getAuthorByEmail(\PDO $pdo, string $authorEmail) : \SplFixedArray {
+		// sanitize the description before searching
+		$authorEmail = trim($authorEmail);
+		$authorEmail = filter_var($authorEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($authorEmail) === true) {
+			throw(new \PDOException(" author email is invalid"));
+		}
+
+		// escape any mySQL wild cards
+		$authorEmail = str_replace("_", "\\_", str_replace("%", "\\%", $authorEmail));
+
+		// create query template
+		$query = "SELECT authrId, authorEmail, authorUsername FROM author WHERE authorEmail LIKE :authorEmail";
+		$statement = $pdo->prepare($query);
+
+		// bind the tweet content to the place holder in the template
+		$authorEmail = "%$authorEmail%";
+		$parameters = ["authorEmail" => $authorEmail];
+		$statement->execute($parameters);
+
+		// build an array of tweets
+		$authors = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$author = new Author($row["authorId"], $row["authorEmail"], $row["authorUsername"]);
+				$authors[$authors->key()] = $author;
+				$authors->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($authors);
+	}
 	/* END SEARCH STATIC METHOD: RETURN ARRAY */
 
 } /* END OF CLASS AUTHOR */

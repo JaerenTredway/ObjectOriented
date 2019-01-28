@@ -1,5 +1,6 @@
 {
   "require": {
-    "Ramsey/Uuid": "^3.8"
+    "Ramsey/Uuid": "^3.8",
+    "PDO": "?"
   }
 }
